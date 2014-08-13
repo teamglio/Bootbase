@@ -1,2 +1,2 @@
-Bootbase - Bootstrap base Theme for WordPress
+Bootstrap base Theme for WordPress
 =================
