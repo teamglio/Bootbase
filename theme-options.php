@@ -82,7 +82,7 @@ $args = array();
 //$args['stylesheet_override'] = true;
 
 //Add HTML before the form
-$args['intro_text'] = __('<p>This is the HTML which can be displayed before the form, it isnt required, but more info is always better. Anything goes in terms of markup here, any HTML.</p>', 'nhp-opts');
+$args['intro_text'] = __('<p>Use these options to customise your site.</p>', 'nhp-opts');
 
 //Setup custom links in the footer for share icons
 $args['share_icons']['twitter'] = array(
@@ -97,7 +97,7 @@ $args['share_icons']['twitter'] = array(
 $args['opt_name'] = 'bootbase';
 
 //Custom menu icon
-//$args['menu_icon'] = '';
+$args['menu_icon'] = '';
 
 //Custom menu title for options page - default is "Options"
 $args['menu_title'] = __('Theme Options', 'nhp-opts');
@@ -147,14 +147,31 @@ $args['help_sidebar'] = __('<p>This is the sidebar content, HTML is allowed.</p>
 $sections = array();
 
 $sections[] = array(
-				'title' => __('Getting Started', 'nhp-opts'),
-				'desc' => __('<p class="description">This is the description field for the Section. HTML is allowed</p>', 'nhp-opts'),
+				'title' => __('Header Options', 'nhp-opts'),
+				'desc' => __('<p class="description">Use the options below to edit elements of the header</p>', 'nhp-opts'),
 				//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 				//You dont have to though, leave it blank for default.
-				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_062_attach.png'
+				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_019_cogwheel.png',
 				//Lets leave this as a blank section, no options just some intro text set above.
-				//'fields' => array()
+				'fields' => array(
+					array(
+						'id' => 'site_logo',
+						'type' => 'upload',
+						'title' => __('Logo', 'nhp-opts'), 
+						'sub_desc' => __('The image you wish to use as your logo', 'nhp-opts')
+						),
+					array(
+						'id' => 'header_position',
+						'type' => 'radio',
+						'title' => __('Header position', 'nhp-opts'), 
+						'sub_desc' => __('Set the positioning behavior of your sites header.', 'nhp-opts'),
+						//'desc' => __('This is the description field, again good for additional info.', 'nhp-opts'),
+						'options' => array('navbar-static-top' => 'Static Top','navbar-fixed-top' => 'Fixed'),//Must provide key => value pairs for radio options
+						'std' => 'static-top'
+						)
+					)
 				);
+
 
 $sections[] = array(
 				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_320_facebook.png',
@@ -228,205 +245,123 @@ $sections[] = array(
 						'id' => 'break_social_1',
 						'type' => 'info',
 						'desc' => __('<p class="description">Other profiles</p>', 'nhp-opts')
-						)/*,
+						)	
+					)
+				);
+
+$sections[] = array(
+				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_023_cogwheels.png',
+				'title' => __('SEO Settings', 'nhp-opts'),
+				'desc' => __('<p class="description">Use these options to set descriptions and keyword for search engine indexing</p>', 'nhp-opts'),
+				'fields' => array(
 					array(
-						'id' => 'aboutme',
-						'type' => 'text',
-						'title' => __('About me', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'id' => 'seo_keywords',
+						'type' => 'textarea',
+						'title' => __('Keywords', 'nhp-opts'),
+						'sub_desc' => __('Add comma seperated keywords.', 'nhp-opts'),
+						//'desc' => __('This is the description field, again good for additional info.', 'nhp-opts'),
+						'validate' => 'no_html'
+						
 						),
 					array(
-						'id' => 'behance',
-						'type' => 'text',
-						'title' => __('Behance', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'id' => 'seo_description',
+						'type' => 'textarea',
+						'title' => __('Description', 'nhp-opts'),
+						'sub_desc' => __('Add a site descriptions.', 'nhp-opts'),
+						//'desc' => __('This is the description field, again good for additional info.', 'nhp-opts'),
+						'validate' => 'no_html'
+						
+						),
+					)
+				);
+
+$sections[] = array(
+				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_280_settings.png',
+				'title' => __('Open Graph', 'nhp-opts'),
+				'desc' => __('<p class="description">Use these options to set info for social sharing</p>', 'nhp-opts'),
+				'fields' => array(
+					array(
+						'id' => 'og_image',
+						'type' => 'upload',
+						'title' => __('Open Graph Image', 'nhp-opts'), 
+						'sub_desc' => __('The image you wish to display across networks', 'nhp-opts'),
+						'std' => 'placehold.it/1500x1500'
 						),
 					array(
-						'id' => 'bitbucket',
+						'id' => 'company_facebook_id',
 						'type' => 'text',
-						'title' => __('Bitbucket', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Company Facebook Id', 'nhp-opts'), 
+						'sub_desc' => __('http://findmyfacebookid.com/', 'nhp-opts')
 						),
 					array(
-						'id' => 'blogger',
+						'id' => 'location_street_address',
 						'type' => 'text',
-						'title' => __('Blogger', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Street Address', 'nhp-opts'), 
+						'sub_desc' => __('Full address', 'nhp-opts')
 						),
 					array(
-						'id' => 'deviantart',
+						'id' => 'location_city',
 						'type' => 'text',
-						'title' => __('Deviant art', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('City', 'nhp-opts'), 
+						'sub_desc' => __('The city', 'nhp-opts')
 						),
 					array(
-						'id' => 'digg',
+						'id' => 'location_country',
 						'type' => 'text',
-						'title' => __('Digg', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Country', 'nhp-opts'), 
+						'sub_desc' => __('the country', 'nhp-opts')
 						),
 					array(
-						'id' => 'flickr',
+						'id' => 'location_region',
 						'type' => 'text',
-						'title' => __('Flickr', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Region', 'nhp-opts'), 
+						'sub_desc' => __('the region', 'nhp-opts')
 						),
 					array(
-						'id' => 'foursquare',
+						'id' => 'location_postal_code',
 						'type' => 'text',
-						'title' => __('Foursquare', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Postal Code', 'nhp-opts'), 
+						'sub_desc' => __('the postal code', 'nhp-opts')
 						),
 					array(
-						'id' => 'github',
+						'id' => 'company_email',
 						'type' => 'text',
-						'title' => __('Github', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Email Address', 'nhp-opts'), 
+						'sub_desc' => __('the email', 'nhp-opts')
 						),
 					array(
-						'id' => 'goodreads',
+						'id' => 'company_phone_number',
 						'type' => 'text',
-						'title' => __('Goodreads', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Phone Number', 'nhp-opts'), 
+						'sub_desc' => __('the tel', 'nhp-opts')
 						),
 					array(
-						'id' => 'hackernews',
+						'id' => 'company_fax_number',
 						'type' => 'text',
-						'title' => __('Hacker news', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Fax Number', 'nhp-opts'), 
+						'sub_desc' => __('the fax number', 'nhp-opts')
 						),
 					array(
-						'id' => 'kickstarter',
-						'type' => 'text',
-						'title' => __('Kickstarter', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'id' => 'company_operating_days',
+						'type' => 'multi_checkbox',
+						'title' => __('Operational Days', 'nhp-opts'), 
+						'sub_desc' => __('days youre open', 'nhp-opts'),
+						//'desc' => __('This is the description field, again good for additional info.', 'nhp-opts'),
+						'options' => array('monday' => 'Monday','tuesday' => 'Tuesday','wednesday' => 'Wednesday','thursday' => 'Thursday','friday' => 'Friday','saturday' => 'Saturday','sunday' => 'Sunday'), //Must provide key => value pairs for multi checkbox options
+						'std' => array('monday' => 'Monday')
 						),
 					array(
-						'id' => 'klout',
+						'id' => 'company_operating_hours_start',
 						'type' => 'text',
-						'title' => __('Klout', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Opening Time', 'nhp-opts'), 
+						'sub_desc' => __('09:00', 'nhp-opts')
 						),
 					array(
-						'id' => 'myspace',
+						'id' => 'company_operating_hours_end',
 						'type' => 'text',
-						'title' => __('Myspace', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
+						'title' => __('Closing Time', 'nhp-opts'), 
+						'sub_desc' => __('17:00', 'nhp-opts')
 						),
-					array(
-						'id' => 'quora',
-						'type' => 'text',
-						'title' => __('Quora', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'skype',
-						'type' => 'text',
-						'title' => __('Skype', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'slideshare',
-						'type' => 'text',
-						'title' => __('Slideshare', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'soundcloud',
-						'type' => 'text',
-						'title' => __('Sound cloud', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'tumblr',
-						'type' => 'text',
-						'title' => __('Tumblr', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'vimeo',
-						'type' => 'text',
-						'title' => __('Vimeo', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'wikipedia',
-						'type' => 'text',
-						'title' => __('Wikipedia', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						),
-					array(
-						'id' => 'wordpress',
-						'type' => 'text',
-						'title' => __('Wordpress', 'nhp-opts'),
-						'sub_desc' => __('', 'nhp-opts'),
-						'desc' => __('', 'nhp-opts'),
-						'validate' => 'url',
-						'std' => ''
-						)*/		
 					)
 				);
 

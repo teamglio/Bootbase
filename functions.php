@@ -527,4 +527,68 @@ define( 'RWMB_DIR', trailingslashit( TEMPLATEPATH . '/includes/meta-box' ) );
 require_once RWMB_DIR . 'meta-box.php';
 // Include the meta box definition (the file where you define meta boxes, see `demo/demo.php`)
 include 'includes/custom-meta-boxes.php';
+
+function current_page_url() {
+    $pageURL = 'http';
+    if( isset($_SERVER["HTTPS"]) ) {
+        if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+    }
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
+}
+
+function add_icons_styles(){
+?>
+ 
+<style>
+#adminmenu #toplevel_page_theme_options div.wp-menu-image:before {
+  content: '\f116';
+}
+#adminmenu .menu-icon-visual-form-builder div.wp-menu-image:before {
+  content: '\f123';
+}
+span.add-form-buttons-icon {
+display: inline-block;
+width: 18px;
+height: 18px;
+vertical-align: text-top;
+margin: 0 2px;
+font: 400 18px/1 dashicons;
+-webkit-font-smoothing: antialiased;
+}
+span.add-youtube-buttons-icon:before {
+content: "\f236";
+}
+ span.add-youtube-buttons-icon {
+background: 0 0;
+}
+span.add-youtube-buttons-icon {
+display: inline-block;
+width: 18px;
+height: 18px;
+vertical-align: text-top;
+margin: 0 2px;
+font: 400 18px/1 dashicons;
+-webkit-font-smoothing: antialiased;
+}
+span.add-form-buttons-icon:before {
+content: '\f123';
+}
+ span.add-form-buttons-icon {
+background: 0 0;
+}
+
+.hide_meta {
+    display: none;
+}
+</style>
+ 
+<?php
+}
+add_action( 'admin_head', 'add_icons_styles' );
 ?>

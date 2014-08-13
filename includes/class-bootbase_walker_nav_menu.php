@@ -56,22 +56,22 @@ class Bootbase_Walker_Nav_Menu extends Walker_Nav_Menu {
      * @return array by-reference   &$output
      *
      */
-    function start_el( &$output, $item, $depth = 0, $args = array() ) {
+    function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 
         $indent = str_repeat("\t", $depth);
         $output .= "\n$indent<li><a href=\"";
-        $output .= $item->url;
+        $output .= $object->url;
         $output .= "\"";
 
         	if ($depth == 0) {
              // Has children
-                $children = get_posts(array('post_type' => 'nav_menu_item', 'nopaging' => true, 'numberposts' => 1, 'meta_key' => '_menu_item_menu_item_parent', 'meta_value' => $item->ID));
+                $children = get_posts(array('post_type' => 'nav_menu_item', 'nopaging' => true, 'numberposts' => 1, 'meta_key' => '_menu_item_menu_item_parent', 'meta_value' => $object->ID));
                 if (!empty($children)) {
                     $output .= "\n class=\"dropdown-toggle\" data-toggle=\"dropdown\" ";
                 }	
     		}
     	$output .= ">";
-        $output .= $item->title;
+        $output .= $object->title;
     }
 
     /**
