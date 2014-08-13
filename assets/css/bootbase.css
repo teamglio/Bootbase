@@ -2,27 +2,11 @@
 body.admin-bar .navbar-fixed-top { top: 28px !important; }
 body {
 	position: relative;
-	padding-top: 0px;
-}
-header {
-	background: #222222;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	padding-top: 50px;
 }
 footer {
 	position: relative;
 	bottom: 0px; 
-}
-.logo img {
-	max-width: 100%;
-	display: block;
-}
-.logo a {
-	display: block;
 }
 /*Home One*/
 .slider {
@@ -158,19 +142,7 @@ footer {
 .form-allowed-tags {
 	display: none;
 }
-.search {
-	display: block;
-	clear: both;
-}
 /*Social Media*/
-.social-media {
-	display: block;
-	clear: both;
-}
-.social-icons {
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
 .sm-twitter {
 	display: inline-block;
 	width: 32px;

@@ -1,16 +1,69 @@
 <?php
 /**
- * BootBase Theme Functions
+ * BootstrapWP Theme Functions
  *
- * @author Glio Digital Innovations
+ * @author Rachel Baker <rachel@rachelbaker.me>
  * @package WordPress
- * @subpackage BootBase
+ * @subpackage BootstrapWP
  */
+
+/**
+ * Maximum allowed width of content within the theme.
+ */
+if (!isset($content_width)) {
+    $content_width = 770;
+}
+
+/**
+ * Setup Theme Functions
+ *
+ */
+if (!function_exists('bootstrapwp_theme_setup')):
+    function bootstrapwp_theme_setup() {
+
+        load_theme_textdomain('bootstrapwp', get_template_directory() . '/lang');
+
+        add_theme_support('automatic-feed-links');
+        add_theme_support('post-thumbnails');
+        add_theme_support('post-formats', array( 'aside', 'image', 'gallery', 'link', 'quote', 'status', 'video', 'audio', 'chat' ));
+
+        register_nav_menus(
+            array(
+                'main-menu' => __('Main Menu', 'bootstrapwp'),
+            ));
+        // load custom walker menu class file
+        require 'includes/class-bootstrapwp_walker_nav_menu.php';
+        require 'includes/class-bootbase_walker_nav_menu.php';
+    }
+endif;
+add_action('after_setup_theme', 'bootstrapwp_theme_setup');
+
+/**
+ * Define post thumbnail size.
+ * Add two additional image sizes.
+ *
+ */
+if ( function_exists( 'add_theme_support' ) ) {
+    add_theme_support( 'post-thumbnails' );
+        set_post_thumbnail_size( 240, 240, true); // default Post Thumbnail dimensions   
+}
+if ( function_exists( 'add_image_size' ) ) { 
+
+    add_image_size('bootbase-1140', 1140, 400, true); // 360px wide by 270px high
+    add_image_size('bootbase-v-500', 390, 500, true); // vertical 500px
+    add_image_size('bootbase-square-500', 500, 500, true); // 360px wide by 270px high
+    add_image_size('bootbase-square-250', 250, 250, true); // 360px wide by 270px high
+    add_image_size('bootstrap-small', 300, 200); // 300px wide x 200px high
+    add_image_size('bootstrap-medium', 360, 270); // 360px wide by 270px high
+
+}
+
 /**
  * Load CSS styles for theme.
  *
  */
-function bootbase_styles_loader() {
+function bootstrapwp_styles_loader() {
+
     //wp_enqueue_style('bootstrapwp-style', get_template_directory_uri() . '/assets/css/bootstrapwp.css', false, '1.0', 'all');
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.css', false, '3.0', 'all');
     wp_enqueue_style('bootbase', get_template_directory_uri() . '/assets/css/bootbase.css', false, '1.0', 'all');
@@ -20,13 +73,15 @@ function bootbase_styles_loader() {
     wp_enqueue_style('fadeslider', get_template_directory_uri() . '/assets/css/responsiveslides.css', false, '1.0', 'all');
     wp_enqueue_style('colorbox', get_template_directory_uri() . '/assets/css/colorbox.css', false, '1.0', 'all');
     wp_enqueue_style('bootstrapwp-default', get_stylesheet_uri());
+
 }
-add_action('wp_enqueue_scripts', 'bootbase_styles_loader');
+add_action('wp_enqueue_scripts', 'bootstrapwp_styles_loader');
+
 /**
  * Load JavaScript and jQuery files for theme.
  *
  */
-function bootbase_scripts_loader() {
+function bootstrapwp_scripts_loader() {
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
 
@@ -46,53 +101,8 @@ function bootbase_scripts_loader() {
     wp_enqueue_script('bootbase', get_template_directory_uri() . '/assets/js/bootbase.js', array('jquery'), '1.0', true);
 
 }
-add_action('wp_enqueue_scripts', 'bootbase_scripts_loader');
+add_action('wp_enqueue_scripts', 'bootstrapwp_scripts_loader');
 
-/**
- * Maximum allowed width of content within the theme.
- */
-if (!isset($content_width)) {
-    $content_width = 770;
-}
-/**
- * Setup Theme Functions
- *
- */
-if (!function_exists('bootbase_theme_setup')):
-    function bootbase_theme_setup() {
-        //load_theme_textdomain('bootbase', get_template_directory() . '/lang');
-        add_theme_support('automatic-feed-links');
-        add_theme_support('post-thumbnails');
-        //add_theme_support('post-formats', array( 'aside', 'image', 'gallery', 'link', 'quote', 'status', 'video', 'audio', 'chat' ));
-        register_nav_menus(
-            array(
-                'main-menu' => __('Main Menu', 'bootbase'),
-            ));
-        // load custom walker menu class file
-        require 'includes/bootbase_walker_nav_menu.php';
-    }
-endif;
-add_action('after_setup_theme', 'bootbase_theme_setup');
-/**
- * Define post thumbnail size.
- * Add two additional image sizes.
- *
- */
-/*if ( function_exists( 'add_theme_support' ) ) {
-    add_theme_support( 'post-thumbnails' );
-        set_post_thumbnail_size( 240, 240, true); // default Post Thumbnail dimensions   
-}
-if ( function_exists( 'add_image_size' ) ) { 
-
-    add_image_size('bootbase-1140', 1140, 400, true); // 360px wide by 270px high
-    add_image_size('bootbase-v-500', 390, 500, true); // vertical 500px
-    add_image_size('bootbase-square-500', 500, 500, true); // 360px wide by 270px high
-    add_image_size('bootbase-square-250', 250, 250, true); // 360px wide by 270px high
-    add_image_size('bootstrap-small', 300, 200); // 300px wide x 200px high
-    add_image_size('bootstrap-medium', 360, 270); // 360px wide by 270px high
-
-}
-*/
 /**
  * Define theme's widget areas.
  *
@@ -272,12 +282,14 @@ if (!function_exists('bootstrapwp_comment')) :
         endswitch;
     }
 endif;
+
+
 /**
  * Display template for post meta information.
  *
  */
-if (!function_exists('bootbase_posted_on')) :
-    function bootbase_posted_on()
+if (!function_exists('bootstrapwp_posted_on')) :
+    function bootstrapwp_posted_on()
     {
         printf(__('Posted on <a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a><span class="byline"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>','bootstrapwp'),
             esc_url(get_permalink()),
@@ -319,11 +331,13 @@ function bootstrapwp_enhanced_image_navigation($url)
     return $url;
 }
 add_filter('attachment_link', 'bootstrapwp_enhanced_image_navigation');
+
+
 /**
  * Checks if a post thumbnails is already defined.
  *
  */
-function bootbase_is_post_thumbnail_set()
+function bootstrapwp_is_post_thumbnail_set()
 {
     global $post;
     if (get_the_post_thumbnail()) {
@@ -332,15 +346,17 @@ function bootbase_is_post_thumbnail_set()
         return false;
     }
 }
+
+
 /**
  * Set post thumbnail as first image from post, if not already defined.
  *
  */
-function bootbase_autoset_featured_img()
+function bootstrapwp_autoset_featured_img()
 {
     global $post;
 
-    $post_thumbnail = bootbase_is_post_thumbnail_set();
+    $post_thumbnail = bootstrapwp_is_post_thumbnail_set();
     if ($post_thumbnail == true) {
         return get_the_post_thumbnail();
     }
@@ -360,6 +376,7 @@ function bootbase_autoset_featured_img()
     return get_the_post_thumbnail($post->ID, $first_image['ID']);
 
 }
+
 /**
  * Define default page titles.
  *
@@ -389,7 +406,7 @@ add_filter('wp_title', 'bootstrapwp_wp_title', 10, 2);
  * Display template for breadcrumbs.
  *
  */
-function bootbase_breadcrumbs()
+function bootstrapwp_breadcrumbs()
 {
     $home      = 'Home'; // text for the 'Home' link
     $before    = '<li class="active">'; // tag before the current crumb
@@ -497,26 +514,17 @@ function bootbase_breadcrumbs()
 
     }
 }
+
 /**
-*Theme Options
-**/
-if ( !class_exists( 'ReduxFramework' ) && file_exists( dirname( __FILE__ ) . '/admin/ReduxCore/framework.php' ) ) {
-    require_once( dirname( __FILE__ ) . '/admin/ReduxCore/framework.php' );
-}
-if ( !isset( $redux_demo ) && file_exists( dirname( __FILE__ ) . '/admin/bootbase-theme-options.php' ) ) {
-    require_once( dirname( __FILE__ ) . '/admin/bootbase-theme-options.php' );
-}
-/**
- * Includes
+ * This theme was built with PHP, Semantic HTML, CSS, love, and a bootstrap.
  */
-//include 'includes/custom-post-types.php';
-/**
- * Meta Box
- */
-define( 'RWMB_URL', trailingslashit( get_template_directory_uri() . '/meta-box' ) );
-define( 'RWMB_DIR', trailingslashit( TEMPLATEPATH . '/meta-box' ) );
+include 'theme-options.php';
+include 'includes/custom-post-types.php';
+// Re-define meta box path and URL
+define( 'RWMB_URL', trailingslashit( get_template_directory_uri() . '/includes/meta-box' ) );
+define( 'RWMB_DIR', trailingslashit( TEMPLATEPATH . '/includes/meta-box' ) );
 // Include the meta box script
 require_once RWMB_DIR . 'meta-box.php';
-include 'includes/bootbase-meta-boxes.php';
-//include 'includes/custom-meta-boxes.php';
+// Include the meta box definition (the file where you define meta boxes, see `demo/demo.php`)
+include 'includes/custom-meta-boxes.php';
 ?>
